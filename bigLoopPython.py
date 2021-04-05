@@ -1,6 +1,6 @@
 #close all
 #clearvars
-
+# continuing to translate pt2
 import numpy as np
 import psychopy as py
 import matplotlib as mpl 
@@ -18,7 +18,7 @@ while counter <=5: #the program will run for 5 rounds
     T = randint([1,2],1)
     groundtruth = [groundtruth T] #trying to concatonate 
     if T == 1:
-        c = randint(3) %harmonious grid 
+        c = randint(3) #harmonious grid 
         c = np.uint8(c)
         yy = np.zeros(150,150,3)
         yy= np.uint8(yy)
@@ -42,9 +42,9 @@ while counter <=5: #the program will run for 5 rounds
         sat9= np.uint8(sat9)
         
         #top left lego
-        for current_row in range(0,50)
-            for current_col in range (0,50)
-                yy(current_row,current_col, c) = sat:
+        for current_row in range(0,50):
+            for current_col in range (0,50):
+                yy(current_row,current_col, c) = sat
       
         
         #top middle lego
