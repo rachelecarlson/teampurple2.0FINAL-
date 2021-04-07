@@ -22,6 +22,7 @@ while counter <=5: #the program will run for 5 rounds
         c = np.uint8(c)
         yy = np.zeros(150,150,3)
         yy= np.uint8(yy)
+        zz = np.random.random_int(255, size=(3.,3.))
         sat = randint(255)
         sat = np.uint8(sat)
         sat2 = randint(255)
@@ -46,52 +47,51 @@ while counter <=5: #the program will run for 5 rounds
             for current_col in range (0,50):
                 yy(current_row,current_col, c) = sat
       
-        
         #top middle lego
-        for current_row in range (0,50)
-            for current_col in range (50,100)_
+        for current_row in range (0,50):
+            for current_col in range (50,100):
                 yy(current_row,current_col, c) = sat2
    
 
         #top right lego
-        for current_row in range (0,50)
-            for current_col in range(100:150)
+        for current_row in range (0,50):
+            for current_col in range(100,150):
                 yy(current_row,current_col, c) = sat3
 
         
         #middle left lego
-        for current_row in range(50:100)
-            for current_col in range (0:50)
+        for current_row in range(50,100):
+            for current_col in range (0,50):
                 yy(current_row,current_col, c) = sat4
 
 
         
         #center lego
-        for current_row in range(50,100)
-            for current_col in range(50:100)
+        for current_row in range(50,100):
+            for current_col in range(50,100):
                 yy(current_row,current_col, c) = sat5
 
   
         #middle right
-        for current_row in range(50,100)
-            for current_col in range(100,150)
+        for current_row in range(50,100):
+            for current_col in range(100,150):
                 yy(current_row,current_col, c) = sat6
         
         #bottom left
-        for current_row in range(100,150)
-            for current_col in range (1,50)
+        for current_row in range(100,150):
+            for current_col in range (1,50):
                 yy(current_row,current_col, c) = sat7
         
         #bottom middle lego
-        for current_row in range(100,150)
-            for current_col in range(50,100)
+        for current_row in range(100,150):
+            for current_col in range(50,100):
                 yy(current_row,current_col, c) = sat8
 
 
         
         #bottom right lego
-        for current_row in range(100:150)
-            for current_col in range(100:150)
+        for current_row in range(100,150):
+            for current_col in range(100,150):
                 yy(current_row,current_col, c) = sat9
 
         
@@ -113,7 +113,7 @@ while counter <=5: #the program will run for 5 rounds
             pause(3)
             
             
-        else
+        else:
             
             #funky lego - if we want to change one of the legos---------------
             #harmonious funky lego
@@ -164,7 +164,7 @@ while counter <=5: #the program will run for 5 rounds
 
             elif rand_row == 3 and rand_col == 3:
                 for current_row in range(100,150):
-                    for current_col in range(100:150)
+                    for current_col in range(100,150):
                         HG(current_row,current_col, c) = sat
   
             
@@ -187,7 +187,7 @@ while counter <=5: #the program will run for 5 rounds
             cc = randint([1, 3], 1)
         elif cc==c and c == 3:
             cc = randint([1, 2], 1)
-        else
+        else:
         #end 
 
         xx = zeros(150,150,3)
@@ -217,8 +217,8 @@ while counter <=5: #the program will run for 5 rounds
                 xx(current_row,current_col, c) = sat
         
         #top middle lego
-        for current_row in range(0:50):
-            for current_col in range(50:100):
+        for current_row in range(0,50):
+            for current_col in range(50,100):
                 xx(current_row,current_col, c) = sat2
         
         #top right lego
@@ -264,7 +264,7 @@ while counter <=5: #the program will run for 5 rounds
         
         
         
-        imshow(np.uint8(xx)) %showing disharmonious grid
+        imshow(np.uint8(xx)) #showing disharmonious grid
         pause(3)
         
         blankMat = np.zeros(150)
@@ -275,7 +275,7 @@ while counter <=5: #the program will run for 5 rounds
         Rr = randint([5,6], 1)
         if Rr == 5: #if we want to keep the same disharmonious grid
             imshow(np.uint8(xx)) % showing same disharmonious grid
-        else #disharmonious funky lego code
+        else: #disharmonious funky lego code
             
             DG = xx
             
@@ -309,7 +309,7 @@ while counter <=5: #the program will run for 5 rounds
                     
             elif rand_row == 2 and rand_col == 3:
                 for current_row in range(50,100):
-                    for current_col in range(100,150)
+                    for current_col in range(100,150):
                         DG(current_row,current_col, cc) = sat
                         
             elif rand_row == 3 and rand_col == 1:
@@ -323,7 +323,7 @@ while counter <=5: #the program will run for 5 rounds
                         DG(current_row,current_col, cc) = sat
                        
             elif rand_row == 3 and rand_col == 3:
-                for current_row in range(100,150)
+                for current_row in range(100,150):
                     for current_col in range(100,150):
                         DG(current_row,current_col, cc) = sat
                         
