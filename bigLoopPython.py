@@ -4,6 +4,9 @@
 import numpy as np
 import psychopy as py
 import matplotlib as mpl 
+import pandas as pd 
+import skimage as sk
+import matplotlib.pyplot as mplpy 
 
 
 counter = 1
@@ -18,81 +21,90 @@ while counter <=5: #the program will run for 5 rounds
     T = randint([1,2],1)
     groundtruth = [groundtruth T] #trying to concatonate 
     if T == 1:
-        c = randint(3) #harmonious grid 
+        c = randint(3) #for harmonious grid (picking one color channel and random int within that color)
         c = np.uint8(c)
         yy = np.zeros(150,150,3)
         yy= np.uint8(yy)
-        zz = np.random.random_int(255, size=(3.,3.))
-        sat = randint(255)
-        sat = np.uint8(sat)
-        sat2 = randint(255)
-        sat2 = np.uint8(sat2)
-        sat3 = randint(255)
-        sat3= np.uint8(sat3)
-        sat4 = randint(255)
-        sat4= np.uint8(sat4)
-        sat5 = randint(255)
-        sat5= np.uint8(sat5)
-        sat6 = randint(255)
-        sat6= np.uint8(sat6)
-        sat7 = randint(255)
-        sat7= np.uint8(sat7)
-        sat8 = randint(255)
-        sat8= np.uint8(sat8)
-        sat9 = randint(255)
-        sat9= np.uint8(sat9)
+        #attempting more sustainable code, using matrix instead of hard code 
+        zz = np.random.random_int(255, size=(3.,3.)) ##for saturation 
+        for rowscols in range(0,len(zz)+1):
+        #the +1 is so it goes all the way to the end 
+
+
+
+        # sat = randint(255)
+        # sat = np.uint8(sat)
+        # sat2 = randint(255)
+        # sat2 = np.uint8(sat2)
+        # sat3 = randint(255)
+        # sat3= np.uint8(sat3)
+        # sat4 = randint(255)
+        # sat4= np.uint8(sat4)
+        # sat5 = randint(255)
+        # sat5= np.uint8(sat5)
+        # sat6 = randint(255)
+        # sat6= np.uint8(sat6)
+        # sat7 = randint(255)
+        # sat7= np.uint8(sat7)
+        # sat8 = randint(255)
+        # sat8= np.uint8(sat8)
+        # sat9 = randint(255)
+        # sat9= np.uint8(sat9)
+
+
         
         #top left lego
-        for current_row in range(0,50):
-            for current_col in range (0,50):
-                yy(current_row,current_col, c) = sat
+            for current_row in range(0,50):
+                for current_col in range (0,50):
+                    yy(current_row,current_col, c) = zz[rowscols] #ASK
+                #also syntax for (current_row?? stuff)
       
         #top middle lego
-        for current_row in range (0,50):
-            for current_col in range (50,100):
-                yy(current_row,current_col, c) = sat2
+            for current_row in range (0,50):
+                for current_col in range (50,100):
+                    yy(current_row,current_col, c) = sat2
    
 
         #top right lego
-        for current_row in range (0,50):
-            for current_col in range(100,150):
-                yy(current_row,current_col, c) = sat3
+            for current_row in range (0,50):
+               for current_col in range(100,150):
+                    yy(current_row,current_col, c) = sat3
 
         
         #middle left lego
-        for current_row in range(50,100):
-            for current_col in range (0,50):
-                yy(current_row,current_col, c) = sat4
+             for current_row in range(50,100):
+                 for current_col in range (0,50):
+                    yy(current_row,current_col, c) = sat4
 
 
         
         #center lego
-        for current_row in range(50,100):
-            for current_col in range(50,100):
-                yy(current_row,current_col, c) = sat5
+            for current_row in range(50,100):
+                for current_col in range(50,100):
+                    yy(current_row,current_col, c) = sat5
 
   
         #middle right
-        for current_row in range(50,100):
-            for current_col in range(100,150):
-                yy(current_row,current_col, c) = sat6
+            for current_row in range(50,100):
+                for current_col in range(100,150):
+                    yy(current_row,current_col, c) = sat6
         
         #bottom left
-        for current_row in range(100,150):
-            for current_col in range (1,50):
-                yy(current_row,current_col, c) = sat7
+            for current_row in range(100,150):
+                for current_col in range (1,50):
+                    yy(current_row,current_col, c) = sat7
         
         #bottom middle lego
-        for current_row in range(100,150):
-            for current_col in range(50,100):
-                yy(current_row,current_col, c) = sat8
+            for current_row in range(100,150):
+                for current_col in range(50,100):
+                    yy(current_row,current_col, c) = sat8
 
 
         
         #bottom right lego
-        for current_row in range(100,150):
-            for current_col in range(100,150):
-                yy(current_row,current_col, c) = sat9
+            for current_row in range(100,150):
+                for current_col in range(100,150):
+                    yy(current_row,current_col, c) = sat9
 
         
         
@@ -113,7 +125,7 @@ while counter <=5: #the program will run for 5 rounds
             pause(3)
             
             
-        else:
+        else: #is R is 4, then create harmonious grid with one lego different 
             
             #funky lego - if we want to change one of the legos---------------
             #harmonious funky lego
@@ -121,7 +133,8 @@ while counter <=5: #the program will run for 5 rounds
             
             rand_row = randint(3)
             rand_col = randint(3)
-            
+            #any combination of rows and columns 
+            #nested loop of rand_row and rand_col that goes from 0 to 3 
             if rand_row == 1 and rand_col == 1:
                 for current_row in range(0,50):
                     for current_col in range(0,50):
@@ -177,7 +190,7 @@ while counter <=5: #the program will run for 5 rounds
             
             
          #end for if statement within big if statement
-    else:
+    else: #if T ==2, create disharmonious grid 
         c = randint(3) #%% disharmonious grid
         c = np.uint8(c)
         cc = randint(3)
@@ -192,75 +205,78 @@ while counter <=5: #the program will run for 5 rounds
 
         xx = zeros(150,150,3)
         xx= np.uint8(xx)
-        sat = randint(255)
-        sat = np.uint8(sat)
-        sat2 = randint(255)
-        sat2 = np.uint8(sat2)
-        sat3 = randint(255)
-        sat3= np.uint8(sat3)
-        sat4 = randint(255)
-        sat4= np.uint8(sat4)
-        sat5 = randint(255)
-        sat5= np.uint8(sat5)
-        sat6 = randint(255)
-        sat6= np.uint8(sat6)
-        sat7 = randint(255)
-        sat7= np.uint8(sat7)
-        sat8 = randint(255)
-        sat8= np.uint8(sat8)
-        sat9 = randint(255)
-        sat9= np.uint8(sat9)
+        zz2 = np.random.random_int(255, size=(3.,3.))
+        for rowscols2 in range(0,len(zz2)+1):
+        #the +1 is so it goes all the way to the end
+        # sat = randint(255)
+        # sat = np.uint8(sat)
+        # sat2 = randint(255)
+        # sat2 = np.uint8(sat2)
+        # sat3 = randint(255)
+        # sat3= np.uint8(sat3)
+        # sat4 = randint(255)
+        # sat4= np.uint8(sat4)
+        # sat5 = randint(255)
+        # sat5= np.uint8(sat5)
+        # sat6 = randint(255)
+        # sat6= np.uint8(sat6)
+        # sat7 = randint(255)
+        # sat7= np.uint8(sat7)
+        # sat8 = randint(255)
+        # sat8= np.uint8(sat8)
+        # sat9 = randint(255)
+        # sat9= np.uint8(sat9)
         
         #top left lego
-        for current_row in range(0,50):
-            for current_col in range(0,50):
-                xx(current_row,current_col, c) = sat
+            for current_row in range(0,50):
+                for current_col in range(0,50):
+                    xx(current_row,current_col, c) = zz2[rowscols2]
         
         #top middle lego
-        for current_row in range(0,50):
-            for current_col in range(50,100):
-                xx(current_row,current_col, c) = sat2
+            for current_row in range(0,50):
+                for current_col in range(50,100):
+                    xx(current_row,current_col, c) = sat2
         
         #top right lego
-        for current_row in range(0,50):
-            for current_col in range(100,150):
-                xx(current_row,current_col, cc) = sat3
+            for current_row in range(0,50):
+                for current_col in range(100,150):
+                    xx(current_row,current_col, cc) = sat3
                
         
         #middle left lego
-        for current_row in range(50,100):
-            for current_col in range(0,50):
-                xx(current_row,current_col, c) = sat4
+            for current_row in range(50,100):
+                for current_col in range(0,50):
+                    xx(current_row,current_col, c) = sat4
             
         
         #center lego
-        for current_row in range(50,100):
-            for current_col in range(50,100):
-                xx(current_row,current_col, c) = sat5
+            for current_row in range(50,100):
+                for current_col in range(50,100):
+                    xx(current_row,current_col, c) = sat5
               
         
         #middle right
-        for current_row in range(50,100):
-            for current_col in range(100,150):
-                xx(current_row,current_col, cc) = sat6
+            for current_row in range(50,100):
+                for current_col in range(100,150):
+                    xx(current_row,current_col, cc) = sat6
               
         
         #bottom left
-        for current_row in range(100,150):
-            for current_col in range(1,50):
-                xx(current_row,current_col, cc) = sat7
+            for current_row in range(100,150):
+                for current_col in range(1,50):
+                    xx(current_row,current_col, cc) = sat7
                
         
         #bottom middle lego
-        for current_row in range(100,150):
-            for current_col in range(50,100):
-                xx(current_row,current_col, c) = sat8
+            for current_row in range(100,150):
+                for current_col in range(50,100):
+                    xx(current_row,current_col, c) = sat8
               
         
         #bottom right lego
-        for current_row in range(100,150):
-            for current_col in range(100,150):
-                xx(current_row,current_col, cc) = sat9
+            for current_row in range(100,150):
+                for current_col in range(100,150):
+                    xx(current_row,current_col, cc) = sat9
         
         
         
