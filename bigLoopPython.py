@@ -8,7 +8,7 @@ import pandas as pd
 import skimage as sk
 import matplotlib.pyplot as mplpy 
 
-
+n = 3 #number of blocks in rows or columns (so n = 3 is a 3x3 grid) 
 counter = 1
 print('Instructions: In each round, two colored grids will be displayed (one after the other). When prompted, indicate whether the two grids were the same or different.')
 answer_vector = []
@@ -27,8 +27,14 @@ while counter <=5: #the program will run for 5 rounds
         yy= np.uint8(yy)
         #attempting more sustainable code, using matrix instead of hard code 
         zz = np.random.random_int(255, size=(3.,3.)) ##for saturation 
-        for rowscols in range(0,len(zz)+1):
-        #the +1 is so it goes all the way to the end 
+        #we could also make one vector 
+
+        for colorChan in range(0,3) #will go through all 9 squares in red, g, b channels
+            for rowscols in range(0,len(zz)):
+             #make sure it's going through all 9 of the squares, not just one dimension 
+             
+
+            
 
 
 
@@ -52,59 +58,84 @@ while counter <=5: #the program will run for 5 rounds
         # sat9= np.uint8(sat9)
 
 
-        
-        #top left lego
-            for current_row in range(0,50):
-                for current_col in range (0,50):
-                    yy(current_row,current_col, c) = zz[rowscols] #ASK
-                #also syntax for (current_row?? stuff)
+        #initialize start position 
+                startXPosition = 0 #starting a first block at 0,0 -- we may need to specifiy the x and y here 
+                startYPosition = 0
+                endXPosition = len(yy[0]/n) #yy[0]/n = the length of a single block 
+                endYPosition = len(yy[0]/n)
+        #after this, do a big for loop in range (0,n) - this is looping through the squares 
+                for rows in range(0,n): #looping through the rows 
+                    while endYPosition <= len(yy[0]): #everything from yy[startX]... to endYPosition three lines below is one row 
+                        #taking us through each square in a single row to cover all the columns 
+                        yy[startXPosition:endXPosition][startYPosition:endYPosition][colorChan] = zz[rowscols]
+                        #changing color of each square
+                        startYPosition+=len(yy[0]/n) 
+                        endYPosition+=len(yy[0]/n)
+                    startYPosition = 0
+                    endYPosition = len(yy[0]/n)
+                    #two above lines are re-initializing the Y values 
+                    startXPosition += len(yy[0]/n)
+                    endXPosition += len(yy[0]/n)
+                    #incrementing x values 
+
+    
+
+                
+
+
+
+        # #top left lego
+        #     for current_row in range(0,50): #for current_row in range(yy[0]) end position would be len(yy[0]/n)
+        #         for current_col in range (0,50):
+        #             yy(current_row,current_col, c) = zz[rowscols] #ASK
+        #         #also syntax for (current_row?? stuff)
       
-        #top middle lego
-            for current_row in range (0,50):
-                for current_col in range (50,100):
-                    yy(current_row,current_col, c) = sat2
+        # #top middle lego
+        #     for current_row in range (0,50):
+        #         for current_col in range (50,100):
+        #             yy(current_row,current_col, c) = sat2
    
 
-        #top right lego
-            for current_row in range (0,50):
-               for current_col in range(100,150):
-                    yy(current_row,current_col, c) = sat3
+        # #top right lego
+        #     for current_row in range (0,50):
+        #        for current_col in range(100,150):
+        #             yy(current_row,current_col, c) = sat3
 
         
-        #middle left lego
-             for current_row in range(50,100):
-                 for current_col in range (0,50):
-                    yy(current_row,current_col, c) = sat4
+        # #middle left lego
+        #      for current_row in range(50,100):
+        #          for current_col in range (0,50):
+        #             yy(current_row,current_col, c) = sat4
 
 
         
-        #center lego
-            for current_row in range(50,100):
-                for current_col in range(50,100):
-                    yy(current_row,current_col, c) = sat5
+        # #center lego
+        #     for current_row in range(50,100):
+        #         for current_col in range(50,100):
+        #             yy(current_row,current_col, c) = sat5
 
   
-        #middle right
-            for current_row in range(50,100):
-                for current_col in range(100,150):
-                    yy(current_row,current_col, c) = sat6
+        # #middle right
+        #     for current_row in range(50,100):
+        #         for current_col in range(100,150):
+        #             yy(current_row,current_col, c) = sat6
         
-        #bottom left
-            for current_row in range(100,150):
-                for current_col in range (1,50):
-                    yy(current_row,current_col, c) = sat7
+        # #bottom left
+        #     for current_row in range(100,150):
+        #         for current_col in range (1,50):
+        #             yy(current_row,current_col, c) = sat7
         
-        #bottom middle lego
-            for current_row in range(100,150):
-                for current_col in range(50,100):
-                    yy(current_row,current_col, c) = sat8
+        # #bottom middle lego
+        #     for current_row in range(100,150):
+        #         for current_col in range(50,100):
+        #             yy(current_row,current_col, c) = sat8
 
 
         
-        #bottom right lego
-            for current_row in range(100,150):
-                for current_col in range(100,150):
-                    yy(current_row,current_col, c) = sat9
+        # #bottom right lego
+        #     for current_row in range(100,150):
+        #         for current_col in range(100,150):
+        #             yy(current_row,current_col, c) = sat9
 
         
         
