@@ -18,10 +18,10 @@ while counter <=5: #the program will run for 5 rounds
     blankMat = np.zeros(150)
     imshow(np.uint8(blankMat))
     pause(3)
-    T = randint([1,2],1)
-    groundtruth = [groundtruth T] #trying to concatonate 
+    T = np.random.randint(2) #pick one number (1 or 2) at random
+    groundtruth.append(T) #trying to concatonate 
     if T == 1:
-        c = randint(3) #for harmonious grid (picking one color channel and random int within that color)
+        c = np.random.randint(3) #for harmonious grid (picking one color channel and random int within that color)
         c = np.uint8(c)
         yy = np.zeros(150,150,3)
         yy= np.uint8(yy)
@@ -29,7 +29,7 @@ while counter <=5: #the program will run for 5 rounds
         zz = np.random.random_int(255, size=(3.,3.)) ##for saturation 
         #we could also make one vector 
 
-        for colorChan in range(0,3) #will go through all 9 squares in red, g, b channels
+        for colorChan in range(0,3): #will go through all 9 squares in red, g, b channels
             for rowscols in range(0,len(zz)):
              #make sure it's going through all 9 of the squares, not just one dimension 
              
