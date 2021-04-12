@@ -34,32 +34,27 @@ while counter <= 5: #the program will run for 5 rounds
         if useHSV: 
             randomHue = np.random.rand() #for harmonious grid (picking one color channel and random int within that color)
             # c should give number between 0 and 1 for HUE
-            displayImage = np.zeros((gridSize,gridSize,3), dtype=np.float32) #the 3 is for color channels 
-            #two parenthesis, because we want it to know that it's a tuple (two separate entities)
-            #attempting more sustainable code, using matrix instead of hard code 
-            randomSat = np.random.randint(255, size=(numBlocks,numBlocks)) ##for saturation 
-            #we could also make one vector 
+            for satLoop in range(0, numBlocks):
+                numBlocks[satLoop] = np.random.randint(255, size=(numBlocks,numBlocks))
+                randomSat = numBlocks ##for saturation 
             randomValue = np.random.rand()
+
             resizedChannel = cv2.resize(randomSat.astype(np.uint8), (gridSize,gridSize), interpolation=cv2.INTER_NEAREST_EXACT)
-            #interpolation has to due with the way the blocks blend together, so interpolation=cv2.INTER_NEAREST_EXACT means 
-            #that the blocks are distinct (not tye-dye looking)
+                #interpolation has to due with the way the blocks blend together, so interpolation=cv2.INTER_NEAREST_EXACT means 
+                #that the blocks are distinct (not tye-dye looking)
+            displayImage = np.zeros((gridSize,gridSize,3), dtype=np.float32) #the 3 is for color channels 
             displayImage[:,:,0] += randomHue 
             displayImage[:,:,1] = resizedChannel
             displayImage[:,:,2] += randomValue
+    
             RGBImage = hsv2rgb(displayImage)
         else: 
             pass 
 
 
-        
-        
-
-        
         mplpy.imshow(RGBImage)
         mplpy.show()
        
-
-
         mplpy.imshow(blankMat)
         mplpy.show()
 
@@ -67,7 +62,7 @@ while counter <= 5: #the program will run for 5 rounds
         GridSD = np.random.randint(nTrialTypes)
         GridSD = 1
         samedifferent.append(GridSD)
-        if trialType == 2: #Show the same thing -----------------------
+        if GridSD == 3: #Show the same harmonious grid as user just saw -----------------------
             mplpy.imshow(yy) #showing same grid
             mplpy.show() 
             pause(3)
@@ -77,7 +72,7 @@ while counter <= 5: #the program will run for 5 rounds
             mplpy.show()
             pause(3)
 
-        else: 
+        else: #if GridSD == 4, show the original harmonious grid, with one lego different  
             #two parenthesis, because we want it to know that it's a tuple (two separate entities)
             #attempting more sustainable code, using matrix instead of hard code 
             #zz = np.random.randint(255, size=(numBlocks,numBlocks)) ##for saturation 
@@ -90,6 +85,8 @@ while counter <= 5: #the program will run for 5 rounds
             #interpolation has to due with the way the blocks blend together, so interpolation=cv2.INTER_NEAREST_EXACT means 
             #that the blocks are distinct (not tye-dye looking)
             #yy[:,:,c] = resizedChannel
+
+    #if trialType == 2:
 
 
 
