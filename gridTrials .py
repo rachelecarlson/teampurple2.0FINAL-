@@ -2,7 +2,7 @@ import numpy as np
 import psychopy as py
 import matplotlib as mpl 
 import pandas as pd 
-import skimage as sk
+from skimage.color import rgb2hsv, hsv2rgb 
 import matplotlib.pyplot as mplpy 
 import cv2
 
@@ -10,6 +10,8 @@ numBlocks = 3 #number of blocks in rows or columns (so n = 3 is a 3x3 grid)
 gridSize = 150 #overall pixels in grid 
 GridType = 2
 nTrialTypes = 2
+useHSV = True #flag that will indicate if you want to work in HSV or RGB space 
+
 
 
 counter = 1
@@ -29,23 +31,38 @@ while counter <= 5: #the program will run for 5 rounds
     trialType = 1 #?
 
     if trialType == 1: # harmonious -----------------------------
-        c = np.random.randint(3) #for harmonious grid (picking one color channel and random int within that color)
-        yy = np.zeros((gridSize,gridSize,3), dtype=np.uint8) #the 3 is for color channels 
-        #two parenthesis, because we want it to know that it's a tuple (two separate entities)
-        colorChannelPicked = c
-        #attempting more sustainable code, using matrix instead of hard code 
-        zz = np.random.randint(255, size=(numBlocks,numBlocks)) ##for saturation 
-        #we could also make one vector 
-        resizedChannel = cv2.resize(zz.astype(np.uint8), (gridSize,gridSize), interpolation=cv2.INTER_NEAREST_EXACT)
-        #interpolation has to due with the way the blocks blend together, so interpolation=cv2.INTER_NEAREST_EXACT means 
-        #that the blocks are distinct (not tye-dye looking)
-        yy[:,:,c] = resizedChannel
+        if useHSV: 
+            randomHue = np.random.rand() #for harmonious grid (picking one color channel and random int within that color)
+            # c should give number between 0 and 1 for HUE
+            displayImage = np.zeros((gridSize,gridSize,3), dtype=np.float32) #the 3 is for color channels 
+            #two parenthesis, because we want it to know that it's a tuple (two separate entities)
+            #attempting more sustainable code, using matrix instead of hard code 
+            randomSat = np.random.randint(255, size=(numBlocks,numBlocks)) ##for saturation 
+            #we could also make one vector 
+            randomValue = np.random.rand()
+            resizedChannel = cv2.resize(randomSat.astype(np.uint8), (gridSize,gridSize), interpolation=cv2.INTER_NEAREST_EXACT)
+            #interpolation has to due with the way the blocks blend together, so interpolation=cv2.INTER_NEAREST_EXACT means 
+            #that the blocks are distinct (not tye-dye looking)
+            displayImage[:,:,0] += randomHue 
+            displayImage[:,:,1] = resizedChannel
+            displayImage[:,:,2] += randomValue
+            RGBImage = hsv2rgb(displayImage)
+        else: 
+            pass 
 
 
-        mplpy.imshow(yy)
+        
+        
+
+        
+        mplpy.imshow(RGBImage)
         mplpy.show()
+       
+
+
         mplpy.imshow(blankMat)
         mplpy.show()
+
         pause(3)
         GridSD = np.random.randint(nTrialTypes)
         GridSD = 1
@@ -53,22 +70,26 @@ while counter <= 5: #the program will run for 5 rounds
         if trialType == 2: #Show the same thing -----------------------
             mplpy.imshow(yy) #showing same grid
             mplpy.show() 
+            pause(3)
+
             blankMat = np.zeros(150)
             mplpy.imshow(blankMat)
             mplpy.show()
             pause(3)
+
         else: 
             #two parenthesis, because we want it to know that it's a tuple (two separate entities)
             #attempting more sustainable code, using matrix instead of hard code 
-            zz = np.random.randint(255, size=(numBlocks,numBlocks)) ##for saturation 
+            #zz = np.random.randint(255, size=(numBlocks,numBlocks)) ##for saturation 
             funkyLegoLen = np.random.randint(0,gridSize+1,size=None, dType=np.uint8)
             funkyLegoWid = np.random.randint(0,gridSize+1,size=None, dType=np.uint8)
-            FunkyLegoGrid = zz(funkyLegoLen,funkyLegoWid,np.random.randint(255,colorChannelPicked))
-            #we could also make one vector 
-            resizedChannel = cv2.resize(zz.astype(np.uint8), (gridSize,gridSize), interpolation=cv2.INTER_NEAREST_EXACT)
+            FunkyLegoGrid = yy
+            FunkyLegoGrid[funkyLegoLen,funkyLegoWid,1] = np.random.rand()
+            #1 is the HUE... np.random.rand() 
+            resizedChannel = cv2.resize(FunkyLegoGrid.astype(np.uint8), (gridSize,gridSize), interpolation=cv2.INTER_NEAREST_EXACT)
             #interpolation has to due with the way the blocks blend together, so interpolation=cv2.INTER_NEAREST_EXACT means 
             #that the blocks are distinct (not tye-dye looking)
-            yy[:,:,c] = resizedChannel
+            #yy[:,:,c] = resizedChannel
 
 
 
