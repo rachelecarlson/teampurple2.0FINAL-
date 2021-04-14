@@ -7,8 +7,8 @@ import matplotlib.pyplot as mplpy
 import cv2
 from copy import deepcopy
 
-numBlocks = 50 #number of blocks in rows or columns (so n = 3 is a 3x3 grid) 
-gridSize = 10 #overall pixels in grid 
+numBlocks = 2 #number of blocks in rows or columns (so n = 3 is a 3x3 grid) 
+gridSize = 200 #overall pixels in grid 
 GridType = 2
 nTrialTypes = 2
 useHSV = True #flag that will indicate if you want to work in HSV or RGB space 
@@ -21,7 +21,7 @@ answer_vector = []
 groundtruth = [] #keeping track of whether the grid is disharmonious or harmonious
 samedifferent = [] #keeping track of whether the grid was the same or different in the trial
 
-while counter <= 3: #the program will run for 4 rounds 
+while counter <= 2: #the program will run for 4 rounds 
     counter += 1
     blankMat = np.zeros((gridSize,gridSize))
     #mplpy.imshow(blankMat.astype(np.uint8))
@@ -71,7 +71,7 @@ while counter <= 3: #the program will run for 4 rounds
         samedifferent.append(GridSD)
 
         if GridSD == 0: #Show the same harmonious grid as user just saw -----------------------
-            print('Same')
+            print('Harmonious Same')
             mplpy.imshow(RGBImage) #showing same grid
             mplpy.axis('off')
             mplpy.pause(3)
@@ -83,7 +83,7 @@ while counter <= 3: #the program will run for 4 rounds
         else: #if GridSD == 1, show the original harmonious grid, with one lego different  
             #attempting more sustainable code, using matrix instead of hard code 
             #zz = np.random.randint(255, size=(numBlocks,numBlocks)) ##for saturation 
-            print('Different')
+            print('Harmonious Different')
             funkyLegoX = np.random.randint(numBlocks)
             funkyLegoY = np.random.randint(numBlocks)
             funkyLegoGrid = deepcopy(displayImage)
@@ -100,7 +100,11 @@ while counter <= 3: #the program will run for 4 rounds
             mplpy.imshow(blankMat)
             mplpy.axis('off')
             mplpy.pause(3)
-
+        
+        UserInput = input("End of Round! Type ‘s’ if the two grids were the same. Type ‘d’ if the grids were different. Enter response here: ") 
+        UserAnswerList = []
+        UserAnswerList.append(UserInput)
+    
     else: #if trialType == 1 --> disharmonious grid 
         if useHSV:
             print("disharmonious")
@@ -163,6 +167,13 @@ while counter <= 3: #the program will run for 4 rounds
             mplpy.imshow(blankMat)
             mplpy.axis('off')
             mplpy.pause(3)
+    
+        UserInput = input("End of Round! Type ‘s’ if the two grids were the same. Type ‘d’ if the grids were different. Enter response here: ") 
+        UserAnswerList = []
+        UserAnswerList.append(UserInput)
+
+
+print(UserAnswerList)
         
         
         
