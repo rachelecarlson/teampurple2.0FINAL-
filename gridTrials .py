@@ -17,7 +17,7 @@ useHSV = True #flag that will indicate if you want to work in HSV or RGB space
 
 counter = 0
 print('Instructions: In each round, two colored grids will be displayed (one after the other). When prompted, indicate whether the two grids were the same or different.')
-answer_vector = []
+UserAnswerList = []
 groundtruth = [] #keeping track of whether the grid is disharmonious or harmonious
 samedifferent = [] #keeping track of whether the grid was the same or different in the trial
 
@@ -102,7 +102,6 @@ while counter <= 2: #the program will run for 4 rounds
             mplpy.pause(3)
         
         UserInput = input("End of Round! Type ‘s’ if the two grids were the same. Type ‘d’ if the grids were different. Enter response here: ") 
-        UserAnswerList = []
         UserAnswerList.append(UserInput)
     
     else: #if trialType == 1 --> disharmonious grid 
@@ -169,7 +168,6 @@ while counter <= 2: #the program will run for 4 rounds
             mplpy.pause(3)
     
         UserInput = input("End of Round! Type ‘s’ if the two grids were the same. Type ‘d’ if the grids were different. Enter response here: ") 
-        UserAnswerList = []
         UserAnswerList.append(UserInput)
 
 
