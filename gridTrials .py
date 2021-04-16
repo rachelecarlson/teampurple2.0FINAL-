@@ -7,10 +7,10 @@ import matplotlib.pyplot as mplpy
 import cv2
 from copy import deepcopy
 
-numBlocks = 2 #number of blocks in rows or columns (so n = 3 is a 3x3 grid) 
+numBlocks = 3 #number of blocks in rows or columns (so n = 3 is a 3x3 grid) 
 gridSize = 200 #overall pixels in grid 
-GridType = 2
-nTrialTypes = 2
+GridType = 2 #there are two options for grids––same grid or different grid
+nTrialTypes = 2 #there are two options for trial types––harmonious or disharmonious
 useHSV = True #flag that will indicate if you want to work in HSV or RGB space 
 
 
@@ -18,8 +18,8 @@ useHSV = True #flag that will indicate if you want to work in HSV or RGB space
 counter = 0
 print('Instructions: In each round, two colored grids will be displayed (one after the other). When prompted, indicate whether the two grids were the same or different.')
 UserAnswerList = []
-groundtruth = [] #keeping track of whether the grid is disharmonious or harmonious
-samedifferent = [] #keeping track of whether the grid was the same or different in the trial
+CorrectHarmDisharmList = [] #keeping track of whether the grid is disharmonious or harmonious
+CorrectAnswerList = [] #keeping track of whether the grid was the same or different in the trial
 
 while counter <= 2: #the program will run for 4 rounds 
     counter += 1
@@ -28,7 +28,7 @@ while counter <= 2: #the program will run for 4 rounds
     #mplpy.pause(3)
     
     trialType = np.random.randint(GridType) #if trial type =1 harmonious, if 2, disharmonious
-    groundtruth.append(trialType) #trying to concatonate
+    CorrectHarmDisharmList.append(trialType) #trying to concatonate
     #trialType = 1 #right now, just shortcut for it to be 1 -- once we have code for trialType = 2 we can delete
 
     #import ipdb; ipdb.set_trace()
@@ -68,7 +68,7 @@ while counter <= 2: #the program will run for 4 rounds
         mplpy.pause(3)
 
         GridSD = np.random.randint(nTrialTypes)
-        samedifferent.append(GridSD)
+        CorrectAnswerList.append(GridSD)
 
         if GridSD == 0: #Show the same harmonious grid as user just saw -----------------------
             print('Harmonious Same')
@@ -101,8 +101,13 @@ while counter <= 2: #the program will run for 4 rounds
             mplpy.axis('off')
             mplpy.pause(3)
         
-        UserInput = input("End of Round! Type ‘s’ if the two grids were the same. Type ‘d’ if the grids were different. Enter response here: ") 
-        UserAnswerList.append(UserInput)
+        UserInput = input("End of Round! Type 's' if the two grids were the same. Type 'd' if the grids were different. Enter response here: ") 
+        if UserInput == 's': 
+            UserAnswerList.append(0)
+        elif UserInput == 'd': 
+            UserAnswerList.append(1)
+        else: 
+            UserAnswerList.append('null')
     
     else: #if trialType == 1 --> disharmonious grid 
         if useHSV:
@@ -134,7 +139,7 @@ while counter <= 2: #the program will run for 4 rounds
         
 
         GridSD = np.random.randint(nTrialTypes)
-        samedifferent.append(GridSD)
+        CorrectAnswerList.append(GridSD)
     
         if GridSD == 0: #Show the same disharmonious grid as user just saw -----------------------
             print('Disharmonious Same')
@@ -167,15 +172,89 @@ while counter <= 2: #the program will run for 4 rounds
             mplpy.axis('off')
             mplpy.pause(3)
     
-        UserInput = input("End of Round! Type ‘s’ if the two grids were the same. Type ‘d’ if the grids were different. Enter response here: ") 
-        UserAnswerList.append(UserInput)
+        UserInput = input("End of Round! Type 's' if the two grids were the same. Type 'd' if the grids were different. Enter response here: ") 
+        if UserInput == 's': 
+            UserAnswerList.append(0)
+        elif UserInput == 'd': 
+            UserAnswerList.append(1)
+        else: 
+            UserAnswerList.append('null')
+        
+    
+        User_Correct_Harm = [] #not dependent on the user
+        ##for researchers to keep track if user got it right or wrong in harmonious or disharmonious trials 
+        User_Correct_Disharmonious = [] 
 
 
-print(UserAnswerList)
+
+        # if CorrectHarmDisharmList == 0 and UserAnswerList == 0 and CorrectAnswerList == 0: 
+        #     #if the program picked harmonious grid, and user said it is the same (0), and the two grids were the same 
+        #     User_Correct_Harm.append('harmonious correct')
+        # elif CorrectHarmDisharmList == 0 and UserAnswerList ==1 and CorrectAnswerList == 1:
+        #     #if the program picks harmonious, and user said it is diff and the two grids were different 
+        #     User_Correct_Harm.append('harmonious correct')
+        # elif CorrectHarmDisharmList == 0 and UserAnswerList ==1 and CorrectAnswerList == 0:
+        #     #if the program picked harmonious, and user says it is different, but the two grids were the same 
+        #     User_Correct_Harm.append('harmonious incorrect') 
+        # elif CorrectHarmDisharmList == 0 and UserAnswerList ==0 and CorrectAnswerList == 1:
+        #     #if the program picked harmioniuos, and user says same, and two grids were different
+        #     User_Correct_Harm.append('harmonious incorrect')
+        # elif CorrectHarmDisharmList == 1 and UserAnswerList == 0 and CorrectAnswerList == 0: 
+        #     #if the program picked disharmonious grid, and user said it is the same (0), and the two grids were the same 
+        #     User_Correct_Disharmonious.append('disharmonious correct')
+        # elif CorrectHarmDisharmList == 1 and UserAnswerList ==1 and CorrectAnswerList == 1:
+        #     #if the program picks disharmonious, and user said it is diff and the two grids were different 
+        #     User_Correct_Disharmonious.append('disharmonious correct')
+        # elif CorrectHarmDisharmList == 1 and UserAnswerList ==1 and CorrectAnswerList == 0:
+        #     #if the program picked disharmonious, and user says it is different, but the two grids were the same 
+        #     User_Correct_Disharmonious.append('disharmonious incorrect') 
+        # elif CorrectHarmDisharmList == 1 and UserAnswerList ==0 and CorrectAnswerList == 1:
+        #     #if the program picked disharmioniuos, and user says same, and two grids were different
+        #     User_Correct_Disharmonious.append('disharmonious incorrect')
+
+        for ii in range(len(UserAnswerList)):
+            if UserAnswerList[ii] == CorrectAnswerList[ii] and CorrectHarmDisharmList == 0:
+                User_Correct_Harm.append('harmonious correct')
+            elif UserAnswerList[ii] == CorrectAnswerList[ii] and CorrectHarmDisharmList == 1: 
+                User_Correct_Disharmonious.append('disharmonious correct')
+            elif UserAnswerList[ii] != CorrectAnswerList[ii] and CorrectHarmDisharmList == 0:
+                User_Correct_Harm.append('harmonious incorrect')
+            elif UserAnswerList[ii] != CorrectAnswerList[ii] and CorrectHarmDisharmList == 1:
+                User_Correct_Disharmonious.append('disharmonious incorrect')
+
         
         
         
+print('this is user answer list', UserAnswerList)
+print('this is whether grid was actually harm or disharm', CorrectHarmDisharmList) #harmonious = 0, and disharmonious = 1 
+print('this is whether the program picked s or d grid', CorrectAnswerList) #same = 0, and different grid = 1 
+print('this is whether user got correct answer when harmonious grid', User_Correct_Harm)
+print('this is whether user got correct answer when disharmonious grid', User_Correct_Disharmonious)
+    
 
+
+
+
+
+#attempting to compare UserAnswerList to the correctAnswerList (for same/different and for harmonious/disharmonious)
+
+# User_Correct_Harm = [] 
+# for yy in range(len(UserAnswerList)): 
+#     if UserAnswerList[yy] == User_Correct_Harm[yy]: 
+#         User_Correct_Harm.append('correct harmonious')
+#     else: 
+#         User_Correct_Harm.append('incorrect harmonious')
+        
+# print(User_Correct_Harm)
+
+# User_Correct_Disharmonious = []
+# for zz in range(len(UserAnswerList)): 
+#     if UserAnswerList[zz] == User_Correct_Disharmonious[zz]: 
+#         User_Correct_Disharmonious.append('correct disharmonious')
+#     else: 
+#         User_Correct_Disharmonious.append('incorrect disharmonious')
+        
+# print(User_Correct_Disharmonious)
         
 
 
