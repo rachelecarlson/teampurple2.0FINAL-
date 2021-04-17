@@ -11,7 +11,7 @@ gridSize = 200 #overall pixels in grid
 GridType = 2 #there are two options for grids––same grid or different grid
 nTrialTypes = 2 #there are two options for trial types––harmonious or disharmonious
 useHSV = True #flag that will indicate if you want to work in HSV or RGB space 
-subjectID = 1 #each time you run a different perosn, update this :) 
+subjectID = 2 #each time you run a different perosn, update this :) 
 
 
 counter = 0
