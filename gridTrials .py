@@ -1,7 +1,5 @@
 import numpy as np
-import psychopy as py
 import matplotlib as mpl 
-import pandas as pd 
 from skimage.color import rgb2hsv, hsv2rgb 
 import matplotlib.pyplot as mplpy 
 import cv2
@@ -22,7 +20,7 @@ UserAnswerList = []
 CorrectHarmDisharmList = [] #keeping track of whether the grid is disharmonious or harmonious
 CorrectAnswerList = [] #keeping track of whether the grid was the same or different in the trial
 
-while counter <= 2: #the program will run for 3 rounds 
+while counter <= 9: #the program will run for 10 rounds 
     counter += 1
     blankMat = np.zeros((gridSize,gridSize))
     #mplpy.imshow(blankMat.astype(np.uint8))
@@ -35,7 +33,7 @@ while counter <= 2: #the program will run for 3 rounds
     #import ipdb; ipdb.set_trace()
 
     if trialType == 0: # harmonious -----------------------------
-        print('harmonious')
+        #print('harmonious')
         if useHSV: 
             randomHue = np.random.rand() #for harmonious grid (picking one color channel and random int within that color)
             # c should give number between 0 and 1 for HUE
@@ -72,7 +70,7 @@ while counter <= 2: #the program will run for 3 rounds
         CorrectAnswerList.append(GridSD)
 
         if GridSD == 0: #Show the same harmonious grid as user just saw -----------------------
-            print('Harmonious Same')
+            #print('Harmonious Same')
             mplpy.imshow(RGBImage) #showing same grid
             mplpy.axis('off')
             mplpy.pause(3)
@@ -84,7 +82,7 @@ while counter <= 2: #the program will run for 3 rounds
         else: #if GridSD == 1, show the original harmonious grid, with one lego different  
             #attempting more sustainable code, using matrix instead of hard code 
             #zz = np.random.randint(255, size=(numBlocks,numBlocks)) ##for saturation 
-            print('Harmonious Different')
+            #print('Harmonious Different')
             funkyLegoX = np.random.randint(numBlocks)
             funkyLegoY = np.random.randint(numBlocks)
             funkyLegoGrid = deepcopy(displayImage)
@@ -112,7 +110,7 @@ while counter <= 2: #the program will run for 3 rounds
     
     else: #if trialType == 1 --> disharmonious grid 
         if useHSV:
-            print("disharmonious")
+            #print("disharmonious")
             randomHue = np.random.rand(numBlocks,numBlocks) #picking one color channel and random int within that color
             # c should give number between 0 and 1 for HUE
             randomSat = np.random.rand(numBlocks, numBlocks)
@@ -143,7 +141,7 @@ while counter <= 2: #the program will run for 3 rounds
         CorrectAnswerList.append(GridSD)
     
         if GridSD == 0: #Show the same disharmonious grid as user just saw -----------------------
-            print('Disharmonious Same')
+            #print('Disharmonious Same')
                 
             mplpy.imshow(RGBImage) #showing same grid
             mplpy.axis('off')
@@ -154,7 +152,7 @@ while counter <= 2: #the program will run for 3 rounds
             mplpy.pause(3)
 
         else: #if GridSD == 1, show the original disharmonious grid, with one lego different  
-            print('Disharmonious Different')
+            #print('Disharmonious Different')
             funkyLegoX = np.random.randint(numBlocks)
             funkyLegoY = np.random.randint(numBlocks)
             funkyLegoGrid = deepcopy(displayImage)
@@ -180,21 +178,6 @@ while counter <= 2: #the program will run for 3 rounds
             UserAnswerList.append(1)
         else: 
             UserAnswerList.append('null')
-        
-    
-        # User_Correct_Harm = [] #not dependent on the user
-        # ##for researchers to keep track if user got it right or wrong in harmonious or disharmonious trials 
-        # User_Correct_Disharmonious = [] 
-
-        # for ii in range(len(UserAnswerList)):
-        #     if UserAnswerList[ii] == CorrectAnswerList[ii] and CorrectHarmDisharmList == 0:
-        #         User_Correct_Harm.append('harmonious correct')
-        #     elif UserAnswerList[ii] == CorrectAnswerList[ii] and CorrectHarmDisharmList == 1: 
-        #         User_Correct_Disharmonious.append('disharmonious correct')
-        #     elif UserAnswerList[ii] != CorrectAnswerList[ii] and CorrectHarmDisharmList == 0:
-        #         User_Correct_Harm.append('harmonious incorrect')
-        #     elif UserAnswerList[ii] != CorrectAnswerList[ii] and CorrectHarmDisharmList == 1:
-        #         User_Correct_Disharmonious.append('disharmonious incorrect')
 
         
 print(UserAnswerList)   
