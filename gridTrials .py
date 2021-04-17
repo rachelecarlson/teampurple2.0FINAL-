@@ -6,13 +6,14 @@ from skimage.color import rgb2hsv, hsv2rgb
 import matplotlib.pyplot as mplpy 
 import cv2
 from copy import deepcopy
+import pickle   
 
 numBlocks = 3 #number of blocks in rows or columns (so n = 3 is a 3x3 grid) 
 gridSize = 200 #overall pixels in grid 
 GridType = 2 #there are two options for grids––same grid or different grid
 nTrialTypes = 2 #there are two options for trial types––harmonious or disharmonious
 useHSV = True #flag that will indicate if you want to work in HSV or RGB space 
-
+subjectID = 0 #each time you run a different perosn, update this :) 
 
 
 counter = 0
@@ -21,7 +22,7 @@ UserAnswerList = []
 CorrectHarmDisharmList = [] #keeping track of whether the grid is disharmonious or harmonious
 CorrectAnswerList = [] #keeping track of whether the grid was the same or different in the trial
 
-while counter <= 2: #the program will run for 4 rounds 
+while counter <= 2: #the program will run for 3 rounds 
     counter += 1
     blankMat = np.zeros((gridSize,gridSize))
     #mplpy.imshow(blankMat.astype(np.uint8))
@@ -181,81 +182,53 @@ while counter <= 2: #the program will run for 4 rounds
             UserAnswerList.append('null')
         
     
-        User_Correct_Harm = [] #not dependent on the user
-        ##for researchers to keep track if user got it right or wrong in harmonious or disharmonious trials 
-        User_Correct_Disharmonious = [] 
+        # User_Correct_Harm = [] #not dependent on the user
+        # ##for researchers to keep track if user got it right or wrong in harmonious or disharmonious trials 
+        # User_Correct_Disharmonious = [] 
 
-
-
-        # if CorrectHarmDisharmList == 0 and UserAnswerList == 0 and CorrectAnswerList == 0: 
-        #     #if the program picked harmonious grid, and user said it is the same (0), and the two grids were the same 
-        #     User_Correct_Harm.append('harmonious correct')
-        # elif CorrectHarmDisharmList == 0 and UserAnswerList ==1 and CorrectAnswerList == 1:
-        #     #if the program picks harmonious, and user said it is diff and the two grids were different 
-        #     User_Correct_Harm.append('harmonious correct')
-        # elif CorrectHarmDisharmList == 0 and UserAnswerList ==1 and CorrectAnswerList == 0:
-        #     #if the program picked harmonious, and user says it is different, but the two grids were the same 
-        #     User_Correct_Harm.append('harmonious incorrect') 
-        # elif CorrectHarmDisharmList == 0 and UserAnswerList ==0 and CorrectAnswerList == 1:
-        #     #if the program picked harmioniuos, and user says same, and two grids were different
-        #     User_Correct_Harm.append('harmonious incorrect')
-        # elif CorrectHarmDisharmList == 1 and UserAnswerList == 0 and CorrectAnswerList == 0: 
-        #     #if the program picked disharmonious grid, and user said it is the same (0), and the two grids were the same 
-        #     User_Correct_Disharmonious.append('disharmonious correct')
-        # elif CorrectHarmDisharmList == 1 and UserAnswerList ==1 and CorrectAnswerList == 1:
-        #     #if the program picks disharmonious, and user said it is diff and the two grids were different 
-        #     User_Correct_Disharmonious.append('disharmonious correct')
-        # elif CorrectHarmDisharmList == 1 and UserAnswerList ==1 and CorrectAnswerList == 0:
-        #     #if the program picked disharmonious, and user says it is different, but the two grids were the same 
-        #     User_Correct_Disharmonious.append('disharmonious incorrect') 
-        # elif CorrectHarmDisharmList == 1 and UserAnswerList ==0 and CorrectAnswerList == 1:
-        #     #if the program picked disharmioniuos, and user says same, and two grids were different
-        #     User_Correct_Disharmonious.append('disharmonious incorrect')
-
-        for ii in range(len(UserAnswerList)):
-            if UserAnswerList[ii] == CorrectAnswerList[ii] and CorrectHarmDisharmList == 0:
-                User_Correct_Harm.append('harmonious correct')
-            elif UserAnswerList[ii] == CorrectAnswerList[ii] and CorrectHarmDisharmList == 1: 
-                User_Correct_Disharmonious.append('disharmonious correct')
-            elif UserAnswerList[ii] != CorrectAnswerList[ii] and CorrectHarmDisharmList == 0:
-                User_Correct_Harm.append('harmonious incorrect')
-            elif UserAnswerList[ii] != CorrectAnswerList[ii] and CorrectHarmDisharmList == 1:
-                User_Correct_Disharmonious.append('disharmonious incorrect')
+        # for ii in range(len(UserAnswerList)):
+        #     if UserAnswerList[ii] == CorrectAnswerList[ii] and CorrectHarmDisharmList == 0:
+        #         User_Correct_Harm.append('harmonious correct')
+        #     elif UserAnswerList[ii] == CorrectAnswerList[ii] and CorrectHarmDisharmList == 1: 
+        #         User_Correct_Disharmonious.append('disharmonious correct')
+        #     elif UserAnswerList[ii] != CorrectAnswerList[ii] and CorrectHarmDisharmList == 0:
+        #         User_Correct_Harm.append('harmonious incorrect')
+        #     elif UserAnswerList[ii] != CorrectAnswerList[ii] and CorrectHarmDisharmList == 1:
+        #         User_Correct_Disharmonious.append('disharmonious incorrect')
 
         
-        
-        
-print('this is user answer list', UserAnswerList)
-print('this is whether grid was actually harm or disharm', CorrectHarmDisharmList) #harmonious = 0, and disharmonious = 1 
-print('this is whether the program picked s or d grid', CorrectAnswerList) #same = 0, and different grid = 1 
-print('this is whether user got correct answer when harmonious grid', User_Correct_Harm)
-print('this is whether user got correct answer when disharmonious grid', User_Correct_Disharmonious)
-    
+print(UserAnswerList)   
+print(CorrectAnswerList)     
+print(CorrectHarmDisharmList)
+
+confusionMatrix = np.zeros((2,2)) #data for this participant 
+
+totalTrials = np.zeros((2,2)) #KEEPING TRACK OF TOTAL # OF TRIALS 
+#2x2 since we have rows harm or disharm, and columns same or different 
+
+for k in range(len(UserAnswerList)):
+    isCorrect = UserAnswerList[k] == CorrectAnswerList[k]
+    if isCorrect: 
+        confusionMatrix[CorrectHarmDisharmList[k], CorrectAnswerList[k]] += 1 
+        #if correctHarmDisharm list is 0, and correctAnwer...[k] is zero, it was a harmonious trial
+        #so update if they answered correctly 
+        #recording how many correct trials there were 
+    totalTrials[CorrectHarmDisharmList[k], CorrectAnswerList[k]] +=1 
+    #this simply keeps track of total trials 
 
 
 
+print(confusionMatrix)
+#mplpy.imshow(confusionMatrix)
+#mplpy.show()
+
+data = {'confmat': confusionMatrix, 'total':totalTrials}
+#dictionary of confusionMatrix, with two keys (confusionMatrix and totalTrials)
+pickle.dump(data, open('subject_{}.p'.format(subjectID), 'wb'))   
 
 
-#attempting to compare UserAnswerList to the correctAnswerList (for same/different and for harmonious/disharmonious)
 
-# User_Correct_Harm = [] 
-# for yy in range(len(UserAnswerList)): 
-#     if UserAnswerList[yy] == User_Correct_Harm[yy]: 
-#         User_Correct_Harm.append('correct harmonious')
-#     else: 
-#         User_Correct_Harm.append('incorrect harmonious')
-        
-# print(User_Correct_Harm)
-
-# User_Correct_Disharmonious = []
-# for zz in range(len(UserAnswerList)): 
-#     if UserAnswerList[zz] == User_Correct_Disharmonious[zz]: 
-#         User_Correct_Disharmonious.append('correct disharmonious')
-#     else: 
-#         User_Correct_Disharmonious.append('incorrect disharmonious')
-        
-# print(User_Correct_Disharmonious)
-        
+     
 
 
 
