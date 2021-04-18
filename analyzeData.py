@@ -10,7 +10,7 @@ confusionMatrix = np.zeros((2,2)) #data for each participant
 totalTrials = np.zeros((2,2)) #KEEPING TRACK OF TOTAL # OF TRIALS 
 #2x2 since we have rows harm or disharm, and columns same or different 
 
-for subjectID in range(10): #if we have 10 participants 
+for subjectID in range(4): #if we have 10 participants 
     data = pickle.load(open('subject_{}.p'.format(subjectID), 'rb')) #reading (rb)
     confusionMatrix += data['confmat'] #accessing the values we've saved in gridTrials file 
     #collapsing data across all participants 
