@@ -28,8 +28,8 @@ im = ax.imshow(confusionMatrix)
 sameDiff = ["Same", "Different"]
 harmDisharm = ["Harmonious", "Disharmonious"]
 
-ax.set_xticks(np.arrange(len(sameDiff)) 
-ax.set_yticks(np.arrange(len(harmDisharm)
+ax.set_xticks(np.arange(len(sameDiff)))
+ax.set_yticks(np.arange(len(harmDisharm)))
 ax.set_xticklabels(sameDiff, fontsize=10) 
 ax.set_yticklabels(harmDisharm, fontsize=10)
 mplpy.setp(ax.get_xticklabels(), rotation=0, ha="right", rotation_mode="anchor")
